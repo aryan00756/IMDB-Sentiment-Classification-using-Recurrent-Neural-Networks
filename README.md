@@ -52,14 +52,6 @@ Embedding Layer
 ---
 
 ## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/your-username/imdb-rnn-sentiment.git
-cd imdb-rnn-sentiment
-```
-
 Create virtual environment (recommended):
 
 ```bash
@@ -90,14 +82,6 @@ Or convert to script and run:
 python model.py
 ```
 
----
-
-## Results
-
-- Validation Accuracy: XX%
-- Training Accuracy: XX%
-
-(Add your real metrics here. Do not fake numbers.)
 
 ---
 
