@@ -6,7 +6,7 @@ from tensorflow.keras.datasets import imdb
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.models import load_model
 import streamlit as st
-
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Load the IMDB dataset word index
 word_index = imdb.get_word_index()
@@ -15,17 +15,27 @@ reverse_word_index = {value: key for key, value in word_index.items()}
 # Load the pre-trained model with ReLU activation
 model = load_model('simple_rnn_imdb.h5')
 
+max_features = 10000
+max_len = 500
+
 # Step 2: Helper Functions
 # Function to decode reviews
 def decode_review(encoded_review):
     return ' '.join([reverse_word_index.get(i - 3, '?') for i in encoded_review])
 
 # Function to preprocess user input
-def preprocess_text(text):
+def preprocess_text(text) :
     words = text.lower().split()
-    encoded_review = [word_index.get(word, 2) + 3 for word in words]
-    padded_review = sequence.pad_sequences([encoded_review], maxlen=500)
-    return padded_review
+    sequence = []
+
+    for word in words:
+        if word in word_index and word_index[word] < max_features:
+            sequence.append(word_index[word] + 3)
+        else:
+            sequence.append(2)  # unknown token
+
+    padded = pad_sequences([sequence], maxlen=max_len)
+    return padded
 
 # Streamlit app
 st.title('IMDB Movie Review Sentiment Analysis')
